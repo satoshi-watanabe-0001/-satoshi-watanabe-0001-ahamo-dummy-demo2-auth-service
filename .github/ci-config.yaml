@@ -1,0 +1,46 @@
+java:
+  version: '17'
+  distribution: 'corretto'
+
+build:
+  tool: 'gradle'
+  commands:
+    - './gradlew clean build'
+    - './gradlew test'
+    - './gradlew jacocoTestReport'
+
+test:
+  coverage:
+    tool: 'jacoco'
+    threshold: 80
+    report-path: 'build/reports/jacoco/test/jacocoTestReport.xml'
+  
+  junit:
+    report-path: 'build/test-results/test/TEST-*.xml'
+
+services:
+  postgres:
+    image: postgres:15
+    env:
+      POSTGRES_DB: auth_test
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test_password
+    options: >-
+      --health-cmd pg_isready
+      --health-interval 10s
+      --health-timeout 5s
+      --health-retries 5
+    ports:
+      - 5432:5432
+
+environment:
+  TEST_DATABASE_URL: jdbc:postgresql://localhost:5432/auth_test
+  TEST_DATABASE_USERNAME: test_user
+  TEST_DATABASE_PASSWORD: test_password
+  JWT_SECRET: dGVzdFNlY3JldEtleUZvckpXVFRva2VuVGVzdGluZ1B1cnBvc2VzMTIzNDU2Nzg5MA==
+
+artifacts:
+  - name: 'test-reports'
+    path: 'build/reports/'
+  - name: 'coverage-reports'
+    path: 'build/reports/jacoco/'
