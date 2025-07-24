@@ -1,0 +1,1 @@
+# -satoshi-watanabe-0001-ahamo-dummy-demo2-auth-service
