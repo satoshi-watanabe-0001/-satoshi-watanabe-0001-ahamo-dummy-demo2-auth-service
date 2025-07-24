@@ -1,0 +1,14 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  ci:
+    uses: satoshi-watanabe-0001/sample001/.github/workflows/ci-called.yaml@main
+    with:
+      config-path: '.github/ci-config.yaml'
+    secrets: inherit
