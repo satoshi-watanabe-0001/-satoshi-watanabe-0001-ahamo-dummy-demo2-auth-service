@@ -2,7 +2,9 @@ package com.ahamo.dummy.demo2.auth.controller;
 
 import com.ahamo.dummy.demo2.auth.dto.*;
 import com.ahamo.dummy.demo2.auth.service.AuthService;
+import com.ahamo.dummy.demo2.auth.service.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,6 +27,12 @@ class AuthControllerTest {
 
     @MockBean
     private AuthService authService;
+
+    @MockBean
+    private JwtService jwtService;
+
+    @MockBean
+    private UserDetailsService userDetailsService;
 
     @Autowired
     private ObjectMapper objectMapper;

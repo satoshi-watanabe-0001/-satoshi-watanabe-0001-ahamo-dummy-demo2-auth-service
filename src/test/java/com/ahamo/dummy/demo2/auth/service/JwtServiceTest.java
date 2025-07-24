@@ -31,7 +31,7 @@ class JwtServiceTest {
 
     @BeforeEach
     void setUp() {
-        when(jwtConfig.getSecret()).thenReturn("dGVzdFNlY3JldEtleUZvckpXVFRva2VuVGVzdGluZ1B1cnBvc2VzMTIzNDU2Nzg5MA==");
+        when(jwtConfig.getSecret()).thenReturn("dGVzdFNlY3JldEtleUZvckpXVFRva2VuVGVzdGluZ1B1cnBvc2VzMTIzNDU2Nzg5MFRoaXNJc0FWZXJ5TG9uZ1NlY3JldEtleUZvclRlc3RpbmdQdXJwb3Nlc09ubHk=");
         when(jwtConfig.getAccessTokenExpiration()).thenReturn(3600000L);
         when(jwtConfig.getRefreshTokenExpiration()).thenReturn(86400000L);
 
