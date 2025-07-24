@@ -113,6 +113,8 @@ public class AuthService {
                     .expiresIn(3600L)
                     .build();
 
+        } catch (AuthenticationException e) {
+            throw e;
         } catch (Exception e) {
             handleFailedLogin(contractNumber);
             throw new AuthenticationException("Invalid credentials");

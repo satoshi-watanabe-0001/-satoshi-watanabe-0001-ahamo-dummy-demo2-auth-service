@@ -31,16 +31,15 @@ class JwtServiceTest {
 
     @BeforeEach
     void setUp() {
-        when(jwtConfig.getSecret()).thenReturn("dGVzdFNlY3JldEtleUZvckpXVFRva2VuVGVzdGluZ1B1cnBvc2VzMTIzNDU2Nzg5MFRoaXNJc0FWZXJ5TG9uZ1NlY3JldEtleUZvclRlc3RpbmdQdXJwb3Nlc09ubHk=");
-        when(jwtConfig.getAccessTokenExpiration()).thenReturn(3600000L);
-        when(jwtConfig.getRefreshTokenExpiration()).thenReturn(86400000L);
-
         userPrincipal = new UserPrincipal(1L, "test@example.com", "test@example.com", "password", Collections.emptyList());
-        when(authentication.getPrincipal()).thenReturn(userPrincipal);
     }
 
     @Test
     void generateJwtToken_Success() {
+        when(jwtConfig.getSecret()).thenReturn("dGVzdFNlY3JldEtleUZvckpXVFRva2VuVGVzdGluZ1B1cnBvc2VzMTIzNDU2Nzg5MFRoaXNJc0FWZXJ5TG9uZ1NlY3JldEtleUZvclRlc3RpbmdQdXJwb3Nlc09ubHk=");
+        when(jwtConfig.getAccessTokenExpiration()).thenReturn(3600000L);
+        when(authentication.getPrincipal()).thenReturn(userPrincipal);
+
         String token = jwtService.generateJwtToken(authentication);
 
         assertNotNull(token);
@@ -49,6 +48,9 @@ class JwtServiceTest {
 
     @Test
     void generateRefreshToken_Success() {
+        when(jwtConfig.getSecret()).thenReturn("dGVzdFNlY3JldEtleUZvckpXVFRva2VuVGVzdGluZ1B1cnBvc2VzMTIzNDU2Nzg5MFRoaXNJc0FWZXJ5TG9uZ1NlY3JldEtleUZvclRlc3RpbmdQdXJwb3Nlc09ubHk=");
+        when(jwtConfig.getRefreshTokenExpiration()).thenReturn(86400000L);
+
         String token = jwtService.generateRefreshToken("test@example.com");
 
         assertNotNull(token);
@@ -57,8 +59,11 @@ class JwtServiceTest {
 
     @Test
     void getUsernameFromJwtToken_Success() {
-        String token = jwtService.generateJwtToken(authentication);
+        when(jwtConfig.getSecret()).thenReturn("dGVzdFNlY3JldEtleUZvckpXVFRva2VuVGVzdGluZ1B1cnBvc2VzMTIzNDU2Nzg5MFRoaXNJc0FWZXJ5TG9uZ1NlY3JldEtleUZvclRlc3RpbmdQdXJwb3Nlc09ubHk=");
+        when(jwtConfig.getAccessTokenExpiration()).thenReturn(3600000L);
+        when(authentication.getPrincipal()).thenReturn(userPrincipal);
 
+        String token = jwtService.generateJwtToken(authentication);
         String username = jwtService.getUsernameFromJwtToken(token);
 
         assertEquals("test@example.com", username);
@@ -66,8 +71,11 @@ class JwtServiceTest {
 
     @Test
     void validateJwtToken_ValidToken() {
-        String token = jwtService.generateJwtToken(authentication);
+        when(jwtConfig.getSecret()).thenReturn("dGVzdFNlY3JldEtleUZvckpXVFRva2VuVGVzdGluZ1B1cnBvc2VzMTIzNDU2Nzg5MFRoaXNJc0FWZXJ5TG9uZ1NlY3JldEtleUZvclRlc3RpbmdQdXJwb3Nlc09ubHk=");
+        when(jwtConfig.getAccessTokenExpiration()).thenReturn(3600000L);
+        when(authentication.getPrincipal()).thenReturn(userPrincipal);
 
+        String token = jwtService.generateJwtToken(authentication);
         boolean isValid = jwtService.validateJwtToken(token);
 
         assertTrue(isValid);
@@ -75,6 +83,7 @@ class JwtServiceTest {
 
     @Test
     void validateJwtToken_InvalidToken() {
+        when(jwtConfig.getSecret()).thenReturn("dGVzdFNlY3JldEtleUZvckpXVFRva2VuVGVzdGluZ1B1cnBvc2VzMTIzNDU2Nzg5MFRoaXNJc0FWZXJ5TG9uZ1NlY3JldEtleUZvclRlc3RpbmdQdXJwb3Nlc09ubHk=");
         String invalidToken = "invalid.jwt.token";
 
         boolean isValid = jwtService.validateJwtToken(invalidToken);
@@ -84,6 +93,7 @@ class JwtServiceTest {
 
     @Test
     void validateJwtToken_EmptyToken() {
+        when(jwtConfig.getSecret()).thenReturn("dGVzdFNlY3JldEtleUZvckpXVFRva2VuVGVzdGluZ1B1cnBvc2VzMTIzNDU2Nzg5MFRoaXNJc0FWZXJ5TG9uZ1NlY3JldEtleUZvclRlc3RpbmdQdXJwb3Nlc09ubHk=");
         boolean isValid = jwtService.validateJwtToken("");
 
         assertFalse(isValid);

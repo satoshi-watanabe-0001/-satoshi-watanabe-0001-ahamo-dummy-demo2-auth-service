@@ -3,10 +3,13 @@ package com.ahamo.dummy.demo2.auth.controller;
 import com.ahamo.dummy.demo2.auth.dto.*;
 import com.ahamo.dummy.demo2.auth.service.AuthService;
 import com.ahamo.dummy.demo2.auth.service.JwtService;
+import com.ahamo.dummy.demo2.auth.security.JwtAuthenticationEntryPoint;
+import com.ahamo.dummy.demo2.auth.security.JwtAuthenticationFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -20,6 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AuthController.class)
+@AutoConfigureMockMvc(addFilters = false)
 class AuthControllerTest {
 
     @Autowired
@@ -33,6 +37,12 @@ class AuthControllerTest {
 
     @MockBean
     private UserDetailsService userDetailsService;
+
+    @MockBean
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
+    @MockBean
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Autowired
     private ObjectMapper objectMapper;

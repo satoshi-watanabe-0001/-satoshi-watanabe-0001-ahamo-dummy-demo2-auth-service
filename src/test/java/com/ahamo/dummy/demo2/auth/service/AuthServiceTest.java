@@ -125,7 +125,7 @@ class AuthServiceTest {
         assertEquals("Bearer", response.getTokenType());
         assertEquals(3600L, response.getExpiresIn());
 
-        verify(userRepository).save(testUser);
+        verify(userRepository, never()).save(testUser);
         assertEquals(0, testUser.getFailedLoginAttempts());
     }
 
