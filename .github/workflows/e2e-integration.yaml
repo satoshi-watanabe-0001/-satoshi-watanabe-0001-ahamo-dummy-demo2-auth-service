@@ -1,0 +1,85 @@
+name: Backend E2E Integration Testing
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      test_suite:
+        description: 'Test suite to run'
+        required: false
+        default: 'api-integration'
+        type: choice
+        options:
+          - all
+          - user-flows
+          - api-integration
+          - cross-service
+      browser:
+        description: 'Browser to test'
+        required: false
+        default: 'chromium'
+        type: choice
+        options:
+          - all
+          - chromium
+          - firefox
+          - webkit
+
+jobs:
+  backend-e2e-integration:
+    uses: satoshi-watanabe-0001/ahamo-dummy-demo2-e2e/.github/workflows/e2e-called.yaml@main
+    with:
+      ENV: "e2e"
+      TRIGGER_REPO: "backend"
+      BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+      TEST_SUITE: ${{ inputs.test_suite || 'api-integration' }}
+      BROWSER: ${{ inputs.browser || 'chromium' }}
+    secrets: inherit
+
+  e2e-report:
+    needs: backend-e2e-integration
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Comment PR with E2E Results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const results = '${{ needs.backend-e2e-integration.outputs.TEST_RESULTS }}';
+            const successRate = '${{ needs.backend-e2e-integration.outputs.SUCCESS_RATE }}';
+            
+            const comment = `## 🧪 バックエンドE2Eテスト実行結果
+            
+            **成功率**: ${successRate}%
+            **実行環境**: e2e
+            **ブランチ**: ${{ github.head_ref || github.ref_name }}
+            **テストスイート**: ${{ inputs.test_suite || 'api-integration' }}
+            **ブラウザ**: ${{ inputs.browser || 'chromium' }}
+            
+            詳細な結果は[Actionsタブ](${context.payload.repository.html_url}/actions/runs/${context.runId})をご確認ください。
+            
+            ---
+            *このE2Eテストは[ahamo-dummy-demo2-e2e](https://github.com/satoshi-watanabe-0001/ahamo-dummy-demo2-e2e)リポジトリの共通ワークフローで実行されました。*
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Set E2E Test Status
+        if: always()
+        run: |
+          if [[ "${{ needs.backend-e2e-integration.result }}" == "success" ]]; then
+            echo "✅ バックエンドE2Eテスト成功"
+            exit 0
+          else
+            echo "❌ バックエンドE2Eテスト失敗"
+            exit 1
+          fi
