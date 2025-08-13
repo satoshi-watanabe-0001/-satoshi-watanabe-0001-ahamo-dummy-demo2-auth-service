@@ -1,5 +1,11 @@
 name: Backend E2E Integration Testing
 
+permissions:
+  contents: read
+  actions: read
+  pull-requests: write
+  issues: write
+
 on:
   push:
     branches: [main, develop]
