@@ -9,3 +9,4 @@ Spring Boot 3.x authentication service with JWT token support for the ahamo dumm
 - PostgreSQL integration with Flyway migrations
 - Comprehensive unit tests (80%+ coverage)
 - Docker containerization support
+# バックエンドE2E統合テスト - 認証修正後のテスト実行
