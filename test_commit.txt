@@ -1,0 +1,5 @@
+test: workflow_call権限修正の検証用テストPR
+
+- PR #9のworkflow_call権限修正効果を検証  
+- 認証サービスヘルスチェックエンドポイント修正の動作確認
+- repository not foundエラーの解決確認
