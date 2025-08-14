@@ -10,3 +10,14 @@ Spring Boot 3.x authentication service with JWT token support for the ahamo dumm
 - Comprehensive unit tests (80%+ coverage)
 - Docker containerization support
 # バックエンドE2E統合テスト - 認証修正後のテスト実行
+# バックエンドE2Eワークフロー権限修正テスト
+
+このPRはPR #9のworkflow_call権限修正が正常に動作するかテストするためのものです。
+
+## 変更内容
+- READMEにテスト用コメントを追加
+
+## 期待される結果
+- Backend E2E Integration Testingワークフローが正常に実行される
+- リポジトリチェックアウトエラーが発生しない
+
